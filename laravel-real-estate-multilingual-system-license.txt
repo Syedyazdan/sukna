@@ -1,0 +1,17 @@
+LICENSE CERTIFICATE: 
+
+Licensor's Author Username:
+thesky9
+
+Licensee:
+Eazisol
+
+Item Title:
+Resido - Laravel Real Estate Multilingual System
+
+
+Item ID:
+33229932
+
+Item Code:
+82a7c90b-af41-414f-b0ec-a4f6ec50a02b
