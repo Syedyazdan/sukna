@@ -75,7 +75,7 @@
                     <div id="clSix" class="panel-collapse collapse show">
                         <div class="block-body">
                             @if ($property->latitude && $property->longitude)
-                                {!! Theme::partial('real-estate.elements.traffic-map-modal', ['location' => $property->location . ', ' . $property->city_name]) !!}
+                                {!! Theme::partial('real-estate.elements.traffic-map-modal', ['property' => $property, 'location' => $property->location . ', ' . $property->city_name]) !!}
                             @else
                                 {!! Theme::partial('real-estate.elements.gmap-canvas', ['location' => $property->location]) !!}
                             @endif
@@ -163,15 +163,15 @@
     </div>
 </section>
 
-@if ($property->latitude && $property->longitude)
-    <div
-        data-magnific-popup="#trafficMap"
-        data-map-id="trafficMap"
-        data-popup-id="#traffic-popup-map-template"
-        data-map-icon="{{ $property->map_icon }}"
-        data-center="{{ json_encode([$property->latitude, $property->longitude]) }}">
-    </div>
-@endif
+{{--@if ($property->latitude && $property->longitude)--}}
+{{--    <div--}}
+{{--        data-magnific-popup="#trafficMap"--}}
+{{--        data-map-id="trafficMap"--}}
+{{--        data-popup-id="#traffic-popup-map-template"--}}
+{{--        data-map-icon="{{ $property->map_icon }}"--}}
+{{--        data-center="{{ json_encode([$property->latitude, $property->longitude]) }}">--}}
+{{--    </div>--}}
+{{--@endif--}}
 
 <script id="traffic-popup-map-template" type="text/x-custom-template">
     {!! Theme::partial('real-estate.properties.map', ['property' => $property]) !!}

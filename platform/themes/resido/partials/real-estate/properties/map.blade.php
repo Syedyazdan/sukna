@@ -1,6 +1,6 @@
 <div class="d-flex">
     <div class="blii">
-        <img class="lazy" src="{{ get_image_loading() }}" data-src="{{ $property->image_thumb }}" height="100" width="100" alt="{{ $property->name }}">
+        <img class="lazy" src="{{ $property->image_thumb }}" data-src="{{ $property->image_thumb }}" height="100" width="100" alt="{{ $property->name }}">
     </div>
     <div class="infomarker">
         <h4><a href="{{ $property->url }}" target="_blank">{{ $property->name }}</a></h4>
