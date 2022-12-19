@@ -66,7 +66,7 @@
                     </div>
                     <div class="fs-left-map-box1 col-md-5">
                         <div class="rightmap h-100">
-                            <div id="map" data-type="{{ request()->input('type') }}"
+                            <div id="mapAdvance" data-type="{{ request()->input('type') }}"
                                  data-url="{{ route('public.ajax.properties.map') }}"
                                  data-center="{{ json_encode([43.615134, -76.393186]) }}"></div>
                         </div>
@@ -131,6 +131,161 @@
     </section>
 @endif
 
-<script id="traffic-popup-map-template" type="text/x-custom-template">
+<script id="traffic-popup-google-map-template" type="text/x-custom-template">
+    @php
+        $propertiesMap = [];
+        foreach ($properties->items() as $property) {
+            $propertiesMap[] = [
+                'id' => $property->id,
+                'name' => $property->name,
+                'type_name' => $property->type_name,
+                'type_slug' => $property->type_slug,
+                'url' => $property->url,
+                'city_name' => $property->city_name,
+                'square_text' => $property->square_text,
+                'number_bedroom' => $property->number_bedroom,
+                'number_bathroom' => $property->number_bathroom,
+                'image_thumb' => $property->image_thumb,
+                'price_html' => $property->price_html,
+                'latitude' => $property->latitude,
+                'longitude' => $property->longitude
+            ];
+        }
+    @endphp
     {!! Theme::partial('real-estate.properties.map-popup', ['property' => get_object_property_map()]) !!}
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{ setting('google_geo_api_key', '') }}"></script>
+<script src="https://rawgit.com/googlemaps/js-rich-marker/gh-pages/src/richmarker.js"></script>
+<script>
+    var propertiesData = <?= count($propertiesMap) > 0 ? json_encode($propertiesMap) : '{}' ?>;
+    $(document).ready(function () {
+        $('#mapAdvance')
+            .on('click', '.marker_google_map', function () {
+                $('.marker_google_map').removeClass('selected');
+                $(this).addClass('selected');
+            });
+
+        function templateReplace(data, template) {
+            const keys = Object.keys(data);
+            for (const i in keys) {
+                if (keys.hasOwnProperty(i)) {
+                    const key = keys[i]
+                    template = template.replace(new RegExp('__' + key + '__', 'gi'), data[key] || '')
+                }
+            }
+            return template;
+        }
+
+        function initMap(propertiesData) {
+            var count, marker;
+
+            // Init map
+            var mapOptions = {
+                zoom: 13,
+                center: new google.maps.LatLng(propertiesData[0] !== undefined ? propertiesData[0].latitude : 43.615134, propertiesData[0] !== undefined ? propertiesData[0].longitude : -76.393186),
+                scrollwheel: true,
+                styles: [
+                    {
+                        featureType: "poi.business",
+                        stylers: [{visibility: "off"}],
+                    },
+                    {
+                        featureType: "transit",
+                        elementType: "labels.icon",
+                        stylers: [{visibility: "off"}],
+                    },
+                    {
+                        featureType: "administrative",
+                        elementType: "labels.text.fill",
+                        stylers: [{color: "#727272"}]
+                    }, {
+                        featureType: "administrative.locality",
+                        elementType: "labels.text.fill",
+                        stylers: [{color: "#2f3c4b"}]
+                    }, {featureType: "poi", elementType: "labels", stylers: [{visibility: "off"}]}, {
+                        featureType: "poi",
+                        elementType: "labels.text.fill",
+                        stylers: [{color: "#727272"}]
+                    }, {
+                        featureType: "poi",
+                        elementType: "labels.icon",
+                        stylers: [{color: "#7b7b7b"}, {lightness: "48"}]
+                    }, {
+                        featureType: "poi.park",
+                        elementType: "geometry.fill",
+                        stylers: [{color: "#c9e3ad"}]
+                    }, {
+                        featureType: "poi.sports_complex",
+                        elementType: "geometry.fill",
+                        stylers: [{color: "#bed7a4"}]
+                    }, {
+                        featureType: "road",
+                        elementType: "geometry.stroke",
+                        stylers: [{visibility: "off"}, {saturation: "0"}]
+                    }, {
+                        featureType: "road.highway",
+                        elementType: "geometry.fill",
+                        stylers: [{saturation: "0"}, {color: "#dddddd"}]
+                    }, {
+                        featureType: "road.highway",
+                        elementType: "geometry.stroke",
+                        stylers: [{color: "#b0b0b0"}]
+                    }, {
+                        featureType: "road.highway",
+                        elementType: "labels",
+                        stylers: [{visibility: "on"}]
+                    }, {featureType: "road.highway", elementType: "labels.icon", stylers: [{lightness: "38"}]}]
+            };
+
+            var map = new google.maps.Map(document.getElementById("mapAdvance"), mapOptions);
+
+            // Create info window
+            var infowindow = new google.maps.InfoWindow({
+                maxWidth: 300,
+                pixelOffset: new google.maps.Size(-10, -25)
+            });
+
+            var $templatePopup = $('#traffic-popup-google-map-template').html();
+
+            var infoFn = function (count) {
+                return function (e) {
+                    var popup = templateReplace(propertiesData[count], $templatePopup);
+                    infowindow.setContent(popup);
+                    infowindow.open(map);
+                    infowindow.setPosition(new google.maps.LatLng(propertiesData[count].latitude, propertiesData[count].longitude));
+                }
+            };
+
+            /**
+             * A customized popup on the map.
+             */
+            // Add markers
+            for (count = 0; count < propertiesData.length; count++) {
+                marker = new RichMarker({
+                    data_id: propertiesData[count].id,
+                    position: new google.maps.LatLng(propertiesData[count].latitude, propertiesData[count].longitude),
+                    map: map,
+                    flat: true,
+                    animation: google.maps.Animation.DROP,
+                    content: '<div class="marker_google_map" data-id="' + propertiesData[count].id + '">' + propertiesData[count].price_html + '</div>',
+                    optimized: false,
+                    visible: true,
+                    draggable: true,
+                });
+
+                marker.setMap(map);
+
+                let fn = infoFn(count);
+                google.maps.event.addListener(marker, 'click', fn);
+            }
+
+            setInterval(function () {
+                if (!infowindow.getMap()) {
+                    $('.marker_google_map').removeClass('selected');
+                }
+            }, 1000);
+        }
+
+        google.maps.event.addDomListener(window, "load", initMap(propertiesData));
+    })
 </script>
