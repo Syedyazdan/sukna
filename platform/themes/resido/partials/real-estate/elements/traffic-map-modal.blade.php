@@ -10,7 +10,7 @@
         </div>
     </div>
 </div>
-
+<!-- changes -->
 @php
     $propertyMap = [
         'id' => $property->id,
