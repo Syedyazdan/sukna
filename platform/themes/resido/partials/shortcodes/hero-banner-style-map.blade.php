@@ -16,7 +16,7 @@
     <div class="hm-map-container fw-map">
         <div id="mapAdvance" data-type="{{ request()->input('type') }}"
              data-url="{{ route('public.ajax.properties.map') }}"
-             data-center="{{ json_encode([43.615134, -76.393186]) }}"></div>
+             data-center="{{ json_encode([24.72227, 46.771884]) }}"></div>
     </div>
 
     <!-- Advance Search -->
@@ -147,8 +147,8 @@
 
             // Init map
             var mapOptions = {
-                zoom: 3,
-                center: new google.maps.LatLng(propertiesData[0] !== undefined ? propertiesData[0].latitude : 43.615134, propertiesData[0] !== undefined ? propertiesData[0].longitude : -76.393186),
+                zoom: 12,
+                center: new google.maps.LatLng(propertiesData[0] !== undefined ? propertiesData[0].latitude : 24.72227, propertiesData[0] !== undefined ? propertiesData[0].longitude : 46.771884),
                 scrollwheel: true,
                 styles: [
                     {
@@ -204,11 +204,13 @@
             };
 
             var map = new google.maps.Map(document.getElementById("mapAdvance"), mapOptions);
-
+           
             // Create info window
             var infowindow = new google.maps.InfoWindow({
                 maxWidth: 300,
-                pixelOffset: new google.maps.Size(-10, -25)
+                pixelOffset: new google.maps.Size(-10, -25),
+                content: "",
+    disableAutoPan: true,
             });
 
             var $templatePopup = $('#traffic-popup-google-map-template').html();

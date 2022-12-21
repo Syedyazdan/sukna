@@ -1,6 +1,6 @@
 #mapAdvance {
   height: calc(100% - 103px);
-    min-height: 730px;
+    
     z-index: 1;
 }
 #mapAdvance .marker_google_map {
@@ -18,7 +18,7 @@
   border-radius: 20px;
 }
 #mapAdvance .marker_google_map.selected{
- background-color: #3d4e53;
+ background-color: blue;
     color: #fff;
     box-shadow: 0 3px 12px 6pxrgba(61,78,83,.14);
 }

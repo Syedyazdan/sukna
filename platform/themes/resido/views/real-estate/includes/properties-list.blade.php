@@ -68,7 +68,7 @@
                         <div class="rightmap h-100">
                             <div id="mapAdvance" data-type="{{ request()->input('type') }}"
                                  data-url="{{ route('public.ajax.properties.map') }}"
-                                 data-center="{{ json_encode([43.615134, -76.393186]) }}"></div>
+                                 data-center="{{ json_encode([24.72227, 46.771884]) }}"></div>
                         </div>
                     </div>
                 </div>
@@ -131,6 +131,8 @@
     </section>
 @endif
 
+<!-- changes -->
+
 <script id="traffic-popup-google-map-template" type="text/x-custom-template">
     @php
         $propertiesMap = [];
@@ -181,8 +183,8 @@
 
             // Init map
             var mapOptions = {
-                zoom: 13,
-                center: new google.maps.LatLng(propertiesData[0] !== undefined ? propertiesData[0].latitude : 43.615134, propertiesData[0] !== undefined ? propertiesData[0].longitude : -76.393186),
+                zoom: 7,
+                center: new google.maps.LatLng(propertiesData[0] !== undefined ? propertiesData[0].latitude : 24.72227, propertiesData[0] !== undefined ? propertiesData[0].longitude : 46.771884),
                 scrollwheel: true,
                 styles: [
                     {
