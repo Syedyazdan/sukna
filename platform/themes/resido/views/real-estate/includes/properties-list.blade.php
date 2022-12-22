@@ -161,6 +161,8 @@
 <script>
     var propertiesData = <?= count($propertiesMap) > 0 ? json_encode($propertiesMap) : '{}' ?>;
     $(document).ready(function () {
+        var prev_infowindow =false;
+
         $('#mapAdvance')
             .on('click', '.marker_google_map', function () {
                 $('.marker_google_map').removeClass('selected');
@@ -251,10 +253,22 @@
 
             var infoFn = function (count) {
                 return function (e) {
+                    if( prev_infowindow ) {
+                        prev_infowindow.close();
+                    }
+
                     var popup = templateReplace(propertiesData[count], $templatePopup);
                     infowindow.setContent(popup);
                     infowindow.open(map);
                     infowindow.setPosition(new google.maps.LatLng(propertiesData[count].latitude, propertiesData[count].longitude));
+
+                    if( prev_infowindow == infowindow) {
+                        prev_infowindow.close();
+                        prev_infowindow = false;
+                        return;
+                    }
+
+                    prev_infowindow = infowindow;
                 }
             };
 
@@ -269,7 +283,7 @@
                     map: map,
                     flat: true,
                     animation: google.maps.Animation.DROP,
-                    content: '<div class="marker_google_map" data-id="' + propertiesData[count].id + '">' + propertiesData[count].price_html + '</div>',
+                    content: '<div class="marker_google_map boxmarker" data-id="' + propertiesData[count].id + '">' + propertiesData[count].type_name + ': ' + propertiesData[count].price_html + '</div>',
                     optimized: false,
                     visible: true,
                     draggable: true,
