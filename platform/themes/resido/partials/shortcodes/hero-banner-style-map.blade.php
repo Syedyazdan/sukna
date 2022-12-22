@@ -234,7 +234,7 @@
                     map: map,
                     flat: true,
                     animation: google.maps.Animation.DROP,
-                    content: '<div class="marker_google_map" data-id="' + propertiesData[count].id + '">' + propertiesData[count].price_html + '</div>',
+                    content: '<div class="marker_google_map boxmarker" data-id="' + propertiesData[count].id + '">' + propertiesData[count].type_name + ': ' + propertiesData[count].price_html + '</div>',
                     optimized: false,
                     visible: true,
                     draggable: true,
