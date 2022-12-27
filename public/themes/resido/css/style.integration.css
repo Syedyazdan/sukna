@@ -1,16 +1,16 @@
 #mapAdvance {
   height: calc(100% - 103px);
-    
+  min-height: 607px;
     z-index: 1;
 }
 #mapAdvance .marker_google_map {
-    color: black;
+    color: white;
     display: block;
     max-width: 200px;
-    background: white;
+    
   user-select: none;
     cursor: pointer;
-    background: #fff;
+    background: #416367;
   text-align: center;
     font-weight: 700;
   padding: 5px 10px;
@@ -18,17 +18,24 @@
   border-radius: 20px;
 }
 #mapAdvance .marker_google_map.selected{
- background-color: blue;
-    color: #fff;
+ background-color: rgb(10, 10, 10);
+    color: white;
     box-shadow: 0 3px 12px 6pxrgba(61,78,83,.14);
 }
 #mapAdvance .gm-style .gm-style-iw-c {
   padding: 0 !important;
 }
 #mapAdvance .gm-style .gm-style-iw-d {
+  
  width: auto;
   overflow: auto !important;
 }
+
+
+.gm-style-iw-d{
+  max-height: 332px !important; 
+}
+
 #mapAdvance .listing-card-info-price {
     padding-left: 0;
 }

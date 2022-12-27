@@ -203,6 +203,8 @@
                         elementType: "labels",
                         stylers: [{visibility: "on"}]
                     }, {featureType: "road.highway", elementType: "labels.icon", stylers: [{lightness: "38"}]}]
+
+                    
             };
 
             var map = new google.maps.Map(document.getElementById("mapAdvance"), mapOptions);
@@ -255,6 +257,7 @@
                     visible: true,
                     draggable: true,
                 });
+                
 
                 marker.setMap(map);
 

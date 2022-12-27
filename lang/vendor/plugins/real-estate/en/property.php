@@ -45,7 +45,7 @@ return [
     ],
     'periods' => [
         'day' => 'Day',
-        'month' => 'Month',
+        'month' => 'Mo',
         'year' => 'Year',
     ],
     'moderation_status' => 'Moderation status',
