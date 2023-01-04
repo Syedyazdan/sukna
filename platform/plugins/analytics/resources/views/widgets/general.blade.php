@@ -1,10 +1,10 @@
 <div class="col-lg-7 mb-2">
     @if ($stats->count())
-        <div class="chart" id="stats-chart"></div>
+    <div class="chart" id="stats-chart"></div>
     @else
-        <div class="h-100 d-flex align-items-center justify-content-center bg-light">
-            <div>{{ trans('core/base::tables.no_data') }}</div>
-        </div>
+    <div class="h-100 d-flex align-items-center justify-content-center bg-light">
+        <div>{{ trans('core/base::tables.no_data') }}</div>
+    </div>
     @endif
 </div>
 <div class="col-lg-5 mb-2">

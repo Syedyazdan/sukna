@@ -22,28 +22,28 @@
     <div class="modal-dialog">
         <div class="modal-content">
             {!! Form::open(['route' => 'dashboard.hide_widgets']) !!}
-                <div class="modal-header">
-                    <h4 class="modal-title"><i class="til_img"></i><strong>{{ trans('core/dashboard::dashboard.manage_widgets') }}</strong></h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true">
+            <div class="modal-header">
+                <h4 class="modal-title"><i class="til_img"></i><strong>{{ trans('core/dashboard::dashboard.manage_widgets') }}</strong></h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true">
 
-                    </button>
-                </div>
-                <div class="modal-body with-padding">
-                    @foreach ($widgets as $widget)
-                        @php $widget_setting = $widget->settings->first(); @endphp
-                        <section class="wrap_{{ $widget->name }}">
-                            <i class="{{ $widget->icon ?? 'box_img_sale ' . $widget->name }} @if ($widget_setting && $widget_setting->status == 0) widget_none_color @endif" style="background-color: {{ $widget->color ?? '#7c87b6' }}"></i>
-                            <span class="widget_name">{{ $widget->title }}</span>
-                            <div class="swc_wrap">
-                                {!! Form::onOff('widgets[' . $widget->name . ']', $widget_setting ? $widget_setting->status : true) !!}
-                            </div>
-                        </section>
-                    @endforeach
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ trans('core/base::forms.cancel') }}</button>
-                    <button type="submit" class="btn btn-primary">{{ trans('core/base::forms.save') }}</button>
-                </div>
+                </button>
+            </div>
+            <div class="modal-body with-padding">
+                @foreach ($widgets as $widget)
+                @php $widget_setting = $widget->settings->first(); @endphp
+                <section class="wrap_{{ $widget->name }}">
+                    <i class="{{ $widget->icon ?? 'box_img_sale ' . $widget->name }} @if ($widget_setting && $widget_setting->status == 0) widget_none_color @endif" style="background-color: {{ $widget->color ?? '#7c87b6' }}"></i>
+                    <span class="widget_name">{{ $widget->title }}</span>
+                    <div class="swc_wrap">
+                        {!! Form::onOff('widgets[' . $widget->name . ']', $widget_setting ? $widget_setting->status : true) !!}
+                    </div>
+                </section>
+                @endforeach
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ trans('core/base::forms.cancel') }}</button>
+                <button type="submit" class="btn btn-primary">{{ trans('core/base::forms.save') }}</button>
+            </div>
             {!! Form::close() !!}
         </div>
     </div>

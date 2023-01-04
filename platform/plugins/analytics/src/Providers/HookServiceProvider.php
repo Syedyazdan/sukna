@@ -111,6 +111,7 @@ class HookServiceProvider extends ServiceProvider
             ->init($widgets, $widgetSettings);
     }
 
+
     /**
      * @param array $widgets
      * @param Collection $widgetSettings

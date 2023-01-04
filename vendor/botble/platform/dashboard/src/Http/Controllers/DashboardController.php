@@ -15,6 +15,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use DB;
 
 class DashboardController extends BaseController
 {
@@ -89,7 +90,11 @@ class DashboardController extends BaseController
         $statWidgets = collect($widgetData)->where('type', '!=', 'widget')->pluck('view')->all();
         $userWidgets = collect($widgetData)->where('type', 'widget')->pluck('view')->all();
 
-        return view('core/dashboard::list', compact('widgets', 'userWidgets', 'statWidgets'));
+
+        $topAgent = DB::select("SELECT COUNT(account_id) AS Property, CONCAT(first_name, ' ', last_name) as Name, email FROM re_account_activity_logs INNER JOIN re_accounts ON re_account_activity_logs.account_id = re_accounts.id WHERE action = 'create_property' group BY account_id, first_name, last_name, email ORDER BY COUNT(account_id) DESC limit 2");
+
+
+        return view('core/dashboard::list', compact('widgets', 'userWidgets', 'statWidgets', 'topAgent'));
     }
 
     /**
@@ -189,7 +194,8 @@ class DashboardController extends BaseController
                 'user_id'   => $request->user()->getKey(),
             ]);
 
-            if (array_key_exists($widget->name, $request->input('widgets', [])) &&
+            if (
+                array_key_exists($widget->name, $request->input('widgets', [])) &&
                 $request->input('widgets.' . $widget->name) == 1
             ) {
                 $widgetSetting->status = 1;
