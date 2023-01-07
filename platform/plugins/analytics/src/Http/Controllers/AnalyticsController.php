@@ -60,7 +60,14 @@ class AnalyticsController extends BaseController
             $country_stats = Analytics::performQuery(
                 $period,
                 'ga:sessions',
-                ['dimensions' => 'ga:countryIsoCode']
+                ['dimensions' => 'ga:countryIsoCode'],
+                // [
+
+
+                //     'dimensions' => 'ga:countryIsoCode, ga:city'
+
+
+                // ]
             )->rows;
             $total = Analytics::performQuery(
                 $period,
@@ -100,9 +107,9 @@ class AnalyticsController extends BaseController
     }
 
     /**
-    * @param string $key
-    * @return string
-    */
+     * @param string $key
+     * @return string
+     */
     protected function getDimension($key): string
     {
         $data = [

@@ -91,10 +91,11 @@ class DashboardController extends BaseController
         $userWidgets = collect($widgetData)->where('type', 'widget')->pluck('view')->all();
 
 
-        $topAgent = DB::select("SELECT COUNT(account_id) AS Property, CONCAT(first_name, ' ', last_name) as Name, email FROM re_account_activity_logs INNER JOIN re_accounts ON re_account_activity_logs.account_id = re_accounts.id WHERE action = 'create_property' group BY account_id, first_name, last_name, email ORDER BY COUNT(account_id) DESC limit 2");
+        $topAgent = DB::select("SELECT COUNT(account_id) AS Property, CONCAT(first_name, ' ', last_name) as Name, email FROM re_account_activity_logs INNER JOIN re_accounts ON re_account_activity_logs.account_id = re_accounts.id WHERE action = 'create_property' group BY account_id, first_name, last_name, email ORDER BY COUNT(account_id) DESC limit 10");
 
+        $topkeyword = DB::select("SELECT keywords AS total FROM top_searches group by keywords order by COUNT(keywords) desc");
 
-        return view('core/dashboard::list', compact('widgets', 'userWidgets', 'statWidgets', 'topAgent'));
+        return view('core/dashboard::list', compact('widgets', 'userWidgets', 'statWidgets', 'topAgent', 'topkeyword'));
     }
 
     /**

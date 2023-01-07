@@ -1,22 +1,20 @@
 @php
-    Theme::asset()
-        ->usePath()
-        ->add('leaflet-css', 'plugins/leaflet.css');
-    Theme::asset()
-        ->container('footer')
-        ->usePath()
-        ->add('leaflet-js', 'plugins/leaflet.js');
-    Theme::asset()
-        ->container('footer')
-        ->usePath()
-        ->add('leaflet.markercluster-src-js', 'plugins/leaflet.markercluster-src.js');
+Theme::asset()
+->usePath()
+->add('leaflet-css', 'plugins/leaflet.css');
+Theme::asset()
+->container('footer')
+->usePath()
+->add('leaflet-js', 'plugins/leaflet.js');
+Theme::asset()
+->container('footer')
+->usePath()
+->add('leaflet.markercluster-src-js', 'plugins/leaflet.markercluster-src.js');
 @endphp
 
 <div class="home-map-banner full-wrapious">
     <div class="hm-map-container fw-map">
-        <div id="mapAdvance" data-type="{{ request()->input('type') }}"
-             data-url="{{ route('public.ajax.properties.map') }}"
-             data-center="{{ json_encode([24.72227, 46.771884]) }}"></div>
+        <div id="mapAdvance" data-type="{{ request()->input('type') }}" data-url="{{ route('public.ajax.properties.map') }}" data-center="{{ json_encode([24.72227, 46.771884]) }}"></div>
     </div>
 
     <!-- Advance Search -->
@@ -24,12 +22,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <button data-bs-toggle="collapse" hidden data-bs-target="#ad-search"
-                            class="btn adv-btn">{{ __('Advanced Search') }}
+                    <button data-bs-toggle="collapse" hidden data-bs-target="#ad-search" class="btn adv-btn">{{ __('Advanced Search') }}
                     </button>
 
-                    <div id="ad-search" class="collapse show"
-                         style="box-shadow: 0px 0px 9px 0px #c7684b, inset 0px 0px 9px 0px #c7684b;border: 2px solid;color: #c7684b;">
+                    <div id="ad-search" class="collapse show" style="box-shadow: 0px 0px 9px 0px #c7684b, inset 0px 0px 9px 0px #c7684b;border: 2px solid;color: #c7684b;">
                         <div>
 
                             <div class="full-search-2 eclip-search italian-search hero-search-radius shadow-hard">
@@ -55,8 +51,7 @@
 
                                             <div class="col-lg-2 col-md-3 col-sm-12">
                                                 <div class="form-group">
-                                                    <button class="btn search-btn black"
-                                                            type="submit">{{ __('Search') }}</button>
+                                                    <button type="submit" id="btn" class="btn search-btn black">{{ __('Search') }}</button>
                                                 </div>
                                             </div>
 
@@ -83,6 +78,39 @@
 <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
 
 <script>
+    $(function() {
+        $('#btn').on('click', function() {
+
+
+            var topsearch = $('#top').val();
+            //alert(topsearch);
+            var model = {
+                k: topsearch,
+                _token: '{{csrf_token()}}'
+            };
+
+            $.ajax({
+                type: "get",
+                url: "{{url('/top_search')}}",
+                data: model,
+                contentType: "application/json; charset=utf-8",
+                dataType: "text",
+                success: function(data) {
+                    //alert('yazdan');
+                },
+                failure: function(data) {
+                    console.log('Failed');
+                }
+
+            });
+
+
+        });
+    });
+
+
+
+
     var propertiesData = [];
     $.ajaxSetup({
         headers: {
@@ -90,17 +118,20 @@
         },
     });
 
-    $(document).ready(function () {
+    $(document).ready(function() {
         var totalPage = 0;
         var currentPage = 1;
-        var params = {type: $('#mapAdvance').data('type'), page: currentPage};
-        var prev_infowindow =false;
+        var params = {
+            type: $('#mapAdvance').data('type'),
+            page: currentPage
+        };
+        var prev_infowindow = false;
 
         $.ajax({
             url: $('#mapAdvance').data('url'),
             type: 'POST',
             data: params,
-            success: function (res) {
+            success: function(res) {
                 if (res.data.length > 0) {
                     res.data.forEach(property => {
                         propertiesData.push({
@@ -126,7 +157,7 @@
         });
 
         $('#mapAdvance')
-            .on('click', '.marker_google_map', function () {
+            .on('click', '.marker_google_map', function() {
                 $('.marker_google_map').removeClass('selected');
                 $(this).addClass('selected');
             });
@@ -152,76 +183,118 @@
                 zoom: 12,
                 center: new google.maps.LatLng(propertiesData[0] !== undefined ? propertiesData[0].latitude : 24.72227, propertiesData[0] !== undefined ? propertiesData[0].longitude : 46.771884),
                 scrollwheel: true,
-                styles: [
-                    {
+                styles: [{
                         featureType: "poi.business",
-                        stylers: [{visibility: "off"}],
+                        stylers: [{
+                            visibility: "off"
+                        }],
                     },
                     {
                         featureType: "transit",
                         elementType: "labels.icon",
-                        stylers: [{visibility: "off"}],
+                        stylers: [{
+                            visibility: "off"
+                        }],
                     },
                     {
                         featureType: "administrative",
                         elementType: "labels.text.fill",
-                        stylers: [{color: "#727272"}]
+                        stylers: [{
+                            color: "#727272"
+                        }]
                     }, {
                         featureType: "administrative.locality",
                         elementType: "labels.text.fill",
-                        stylers: [{color: "#2f3c4b"}]
-                    }, {featureType: "poi", elementType: "labels", stylers: [{visibility: "off"}]}, {
+                        stylers: [{
+                            color: "#2f3c4b"
+                        }]
+                    }, {
+                        featureType: "poi",
+                        elementType: "labels",
+                        stylers: [{
+                            visibility: "off"
+                        }]
+                    }, {
                         featureType: "poi",
                         elementType: "labels.text.fill",
-                        stylers: [{color: "#727272"}]
+                        stylers: [{
+                            color: "#727272"
+                        }]
                     }, {
                         featureType: "poi",
                         elementType: "labels.icon",
-                        stylers: [{color: "#7b7b7b"}, {lightness: "48"}]
+                        stylers: [{
+                            color: "#7b7b7b"
+                        }, {
+                            lightness: "48"
+                        }]
                     }, {
                         featureType: "poi.park",
                         elementType: "geometry.fill",
-                        stylers: [{color: "#c9e3ad"}]
+                        stylers: [{
+                            color: "#c9e3ad"
+                        }]
                     }, {
                         featureType: "poi.sports_complex",
                         elementType: "geometry.fill",
-                        stylers: [{color: "#bed7a4"}]
+                        stylers: [{
+                            color: "#bed7a4"
+                        }]
                     }, {
                         featureType: "road",
                         elementType: "geometry.stroke",
-                        stylers: [{visibility: "off"}, {saturation: "0"}]
+                        stylers: [{
+                            visibility: "off"
+                        }, {
+                            saturation: "0"
+                        }]
                     }, {
                         featureType: "road.highway",
                         elementType: "geometry.fill",
-                        stylers: [{saturation: "0"}, {color: "#dddddd"}]
+                        stylers: [{
+                            saturation: "0"
+                        }, {
+                            color: "#dddddd"
+                        }]
                     }, {
                         featureType: "road.highway",
                         elementType: "geometry.stroke",
-                        stylers: [{color: "#b0b0b0"}]
+                        stylers: [{
+                            color: "#b0b0b0"
+                        }]
                     }, {
                         featureType: "road.highway",
                         elementType: "labels",
-                        stylers: [{visibility: "on"}]
-                    }, {featureType: "road.highway", elementType: "labels.icon", stylers: [{lightness: "38"}]}]
+                        stylers: [{
+                            visibility: "on"
+                        }]
+                    }, {
+                        featureType: "road.highway",
+                        elementType: "labels.icon",
+                        stylers: [{
+                            lightness: "38"
+                        }]
+                    }
+                ]
 
-                    
+
             };
 
             var map = new google.maps.Map(document.getElementById("mapAdvance"), mapOptions);
-           
+
             // Create info window
             var infowindow = new google.maps.InfoWindow({
                 maxWidth: 300,
                 pixelOffset: new google.maps.Size(-10, -25),
                 content: "",
-    disableAutoPan: true,
+                disableAutoPan: true,
             });
 
             var $templatePopup = $('#traffic-popup-google-map-template').html();
 
-            var infoFn = function (count) {
-                return function (e) {
-                    if( prev_infowindow ) {
+            var infoFn = function(count) {
+                return function(e) {
+                    if (prev_infowindow) {
                         prev_infowindow.close();
                     }
 
@@ -230,7 +303,7 @@
                     infowindow.open(map);
                     infowindow.setPosition(new google.maps.LatLng(propertiesData[count].latitude, propertiesData[count].longitude));
 
-                    if( prev_infowindow == infowindow) {
+                    if (prev_infowindow == infowindow) {
                         prev_infowindow.close();
                         prev_infowindow = false;
                         return;
@@ -257,7 +330,7 @@
                     visible: true,
                     draggable: true,
                 });
-                
+
 
                 marker.setMap(map);
 
@@ -266,10 +339,13 @@
                 markers.push(marker);
             }
 
-            const markerCluster = new markerClusterer.MarkerClusterer({ map, markers });
+            const markerCluster = new markerClusterer.MarkerClusterer({
+                map,
+                markers
+            });
             // new MarkerClusterer({ markers, map });
 
-            setInterval(function () {
+            setInterval(function() {
                 if (!infowindow.getMap()) {
                     $('.marker_google_map').removeClass('selected');
                 }
