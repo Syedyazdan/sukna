@@ -30,11 +30,12 @@
 
                 </div>
 
+
             </div>
             <div class="portlet-body  widget-content scroll-table expand">
                 <div class="scroller mCustomScrollbar _mCS_6" style="padding: 0px;">
                     <div id="_mCS_6" class="mCustomScrollBox mCS-dark mCSB_vertical mCSB_inside" tabindex="0" style="max-height: none;">
-                        <div id="_mCS_6_container" class="mCSB_container" style="margin-right:10px!important; position:relative; top:0; left:0;" dir="ltr">
+                        <div id="_mCS_6_container" class="mCSB_container_odd" style="position:relative; top:0; left:0;" dir="ltr">
                             <table class="table table-striped">
 
                                 <thead class="tableFloatingHeader">
@@ -86,7 +87,7 @@
             <div class="portlet-body  widget-content scroll-table expand" style="">
                 <div class="scroller mCustomScrollbar _mCS_3" style="padding: 0px;">
                     <div id="mCSB_3001" class="mCustomScrollBox mCS-dark mCSB_vertical mCSB_inside" tabindex="0" style="max-height: none;">
-                        <div id="mCSB_3001_container" class="mCSB_container" style="position:relative; top:0; left:0;" dir="ltr">
+                        <div id="mCSB_3001_container" class="mCSB_container_odd" style="position:relative; top:0; left:0;" dir="ltr">
                             <table class="table table-striped">
                                 <thead class="tableFloatingHeaderOriginal" style="position: absolute; margin-top: 0px; z-index: 1; width: 469.5px;">
                                     <tr>

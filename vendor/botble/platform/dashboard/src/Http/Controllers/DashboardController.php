@@ -67,6 +67,7 @@ class DashboardController extends BaseController
         /**
          * @var Collection $widgets
          */
+
         $widgets = $this->widgetRepository->getModel()
             ->with([
                 'settings' => function (HasMany $query) use ($request) {

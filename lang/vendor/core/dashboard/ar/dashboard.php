@@ -13,6 +13,7 @@ return [
     'save_setting_success' => 'Save widget settings successfully!',
     'widget_not_exists' => 'Widget is not exits!',
     'manage_widgets' => 'Manage Widgets',
+    'manage' => 'Yazdan',
     'fullscreen' => 'Full screen',
     'title' => 'Dashboard',
 ];
